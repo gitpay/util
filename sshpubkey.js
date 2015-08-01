@@ -72,6 +72,7 @@ try {
   process.exit(-1);
 }
 
+
 // exponent
 try {
   sshpubkey.exponentlenstart = sshpubkey.typeend;
@@ -88,19 +89,24 @@ try {
   process.exit(-1);
 }
 
+
 // modulus
-//
-//
-sshpubkey.moduluslenstart = sshpubkey.exponentend;
-sshpubkey.moduluslenend = sshpubkey.moduluslenstart + sshpubkey.byteslen;
-sshpubkey.moduluslenbytes = sshpubkey.keybytes.slice(sshpubkey.moduluslenstart, sshpubkey.moduluslenend);
-sshpubkey.moduluslen = 256*sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-2) + sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-1);
+try {
+  sshpubkey.moduluslenstart = sshpubkey.exponentend;
+  sshpubkey.moduluslenend = sshpubkey.moduluslenstart + sshpubkey.byteslen;
+  sshpubkey.moduluslenbytes = sshpubkey.keybytes.slice(sshpubkey.moduluslenstart, sshpubkey.moduluslenend);
+  sshpubkey.moduluslen = 256*sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-2) + sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-1);
 
-sshpubkey.modulusstart = sshpubkey.moduluslenend;
-sshpubkey.modulusend = sshpubkey.modulusstart + sshpubkey.moduluslen;
-sshpubkey.modulusbytes = sshpubkey.keybytes.slice(sshpubkey.modulusstart, sshpubkey.modulusend);
+  sshpubkey.modulusstart = sshpubkey.moduluslenend;
+  sshpubkey.modulusend = sshpubkey.modulusstart + sshpubkey.moduluslen;
+  sshpubkey.modulusbytes = sshpubkey.keybytes.slice(sshpubkey.modulusstart, sshpubkey.modulusend);
+} catch(e) {
+  console.error('could not get modulus');
+  console.error(e);
+  process.exit(-1);
+}
 
 
-
+// output results
 console.log(parseInt(forge.util.bytesToHex(sshpubkey.exponentbytes), 16));
 console.log(forge.util.bytesToHex(sshpubkey.modulusbytes));
