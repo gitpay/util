@@ -33,7 +33,7 @@ try {
 try {
   var arr = pubkey.toString().split(' ');
   if (arr.length < 2) {
-    throw "Malformed key split length " + arr.length;
+    throw new Error("Malformed key split length " + arr.length);
   }
   sshpubkey.prefix = arr[0];
   sshpubkey.mainkey = arr[1];
