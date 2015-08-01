@@ -23,8 +23,8 @@ console.log('getting public key from : ' + pubkeyfile);
 try {
   pubkey = fs.readFileSync(pubkeyfile, "utf8");
 } catch(e) {
-  console.log('could not load : ' + pubkeyfile);
-  console.log(e);
+  console.error('could not load : ' + pubkeyfile);
+  console.error(e);
   process.exit(-1);
 }
 
@@ -38,8 +38,8 @@ try {
   sshpubkey.prefix = arr[0];
   sshpubkey.mainkey = arr[1];
 } catch(e) {
-  console.log('could not parse key : ' + pubkey);
-  console.log(e);
+  console.error('could not parse key : ' + pubkey);
+  console.error(e);
   process.exit(-1);
 }
 
@@ -50,10 +50,11 @@ try {
   sshpubkey.keybytes = forge.util.decode64(sshpubkey.mainkey);
   sshpubkey.keyhex = forge.util.bytesToHex(sshpubkey.keybytes);
 } catch(e) {
-  console.log('could not get key hex : ' + pubkey);
-  console.log(e);
+  console.error('could not get key hex : ' + pubkey);
+  console.error(e);
   process.exit(-1);
 }
+
 
 // type
 //
