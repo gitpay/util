@@ -50,35 +50,43 @@ try {
   sshpubkey.keybytes = forge.util.decode64(sshpubkey.mainkey);
   sshpubkey.keyhex = forge.util.bytesToHex(sshpubkey.keybytes);
 } catch(e) {
-  console.error('could not get key hex : ' + pubkey);
+  console.error('could not get key hex');
   console.error(e);
   process.exit(-1);
 }
 
 
 // type
-//
-//
-sshpubkey.typelenstart = 0;
-sshpubkey.typelenend = sshpubkey.typelenstart + sshpubkey.byteslen;
-sshpubkey.typelenbytes = sshpubkey.keybytes.slice(sshpubkey.typelenstart, sshpubkey.typelenend);
-sshpubkey.typelen = sshpubkey.typelenbytes.charCodeAt(sshpubkey.byteslen-1);
+try {
+  sshpubkey.typelenstart = 0;
+  sshpubkey.typelenend = sshpubkey.typelenstart + sshpubkey.byteslen;
+  sshpubkey.typelenbytes = sshpubkey.keybytes.slice(sshpubkey.typelenstart, sshpubkey.typelenend);
+  sshpubkey.typelen = sshpubkey.typelenbytes.charCodeAt(sshpubkey.byteslen-1);
 
-sshpubkey.typestart = sshpubkey.typelenend;
-sshpubkey.typeend = sshpubkey.typestart + sshpubkey.typelen;
-sshpubkey.typebytes = sshpubkey.keybytes.slice(sshpubkey.typestart, sshpubkey.typeend);
+  sshpubkey.typestart = sshpubkey.typelenend;
+  sshpubkey.typeend = sshpubkey.typestart + sshpubkey.typelen;
+  sshpubkey.typebytes = sshpubkey.keybytes.slice(sshpubkey.typestart, sshpubkey.typeend);
+} catch(e) {
+  console.error('could not get type');
+  console.error(e);
+  process.exit(-1);
+}
 
 // exponent
-//
-//
-sshpubkey.exponentlenstart = sshpubkey.typeend;
-sshpubkey.exponentlenend = sshpubkey.exponentlenstart + sshpubkey.byteslen;
-sshpubkey.exponentlenbytes = sshpubkey.keybytes.slice(sshpubkey.exponentlenstart, sshpubkey.exponentlenend);
-sshpubkey.exponentlen = sshpubkey.exponentlenbytes.charCodeAt(sshpubkey.byteslen-1);
+try {
+  sshpubkey.exponentlenstart = sshpubkey.typeend;
+  sshpubkey.exponentlenend = sshpubkey.exponentlenstart + sshpubkey.byteslen;
+  sshpubkey.exponentlenbytes = sshpubkey.keybytes.slice(sshpubkey.exponentlenstart, sshpubkey.exponentlenend);
+  sshpubkey.exponentlen = sshpubkey.exponentlenbytes.charCodeAt(sshpubkey.byteslen-1);
 
-sshpubkey.exponentstart = sshpubkey.exponentlenend;
-sshpubkey.exponentend = sshpubkey.exponentstart + sshpubkey.exponentlen;
-sshpubkey.exponentbytes = sshpubkey.keybytes.slice(sshpubkey.exponentstart, sshpubkey.exponentend);
+  sshpubkey.exponentstart = sshpubkey.exponentlenend;
+  sshpubkey.exponentend = sshpubkey.exponentstart + sshpubkey.exponentlen;
+  sshpubkey.exponentbytes = sshpubkey.keybytes.slice(sshpubkey.exponentstart, sshpubkey.exponentend);
+} catch(e) {
+  console.error('could not get exponent');
+  console.error(e);
+  process.exit(-1);
+}
 
 // modulus
 //
