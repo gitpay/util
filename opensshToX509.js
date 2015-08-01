@@ -58,7 +58,7 @@ function bin(argv) {
   var private = argv[4] || './id_rsa';
   var pemFile = argv[5] || './id_rsa.pem';
 
-  convert(login, public, private, function(err, pem) {
+  convert(login, public, private, pemFile, function(err, pem) {
     if (err) {
       console.log(err);
     }
