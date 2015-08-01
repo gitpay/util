@@ -43,10 +43,17 @@ try {
   process.exit(-1);
 }
 
-sshpubkey.keybytes = forge.util.decode64(sshpubkey.mainkey);
-sshpubkey.keyhex = forge.util.bytesToHex(sshpubkey.keybytes);
 
-sshpubkey.byteslen = 4;
+// get key bytes
+try {
+  sshpubkey.byteslen = 4;
+  sshpubkey.keybytes = forge.util.decode64(sshpubkey.mainkey);
+  sshpubkey.keyhex = forge.util.bytesToHex(sshpubkey.keybytes);
+} catch(e) {
+  console.log('could not get key hex : ' + pubkey);
+  console.log(e);
+  process.exit(-1);
+}
 
 // type
 //
