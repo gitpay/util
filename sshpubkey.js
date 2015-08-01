@@ -1,112 +1,227 @@
-#!/usr/bin/env node
-
-// requires
+var fs = require("fs");
 var forge = require('node-forge');
-var fs    = require("fs");
+var debug = require('debug')('converter');
+var BigInteger = forge.jsbn.BigInteger;
 
-// init
-var sshpubkey = {};
-var pubkey;
-
-
-// process command line arguments : pubkeyFile
-var argv       = process.argv;
-var pubkeyfile = argv[2];
-
-
-// get pubkeyfile
-var home = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-if (!pubkeyfile) {
-  pubkeyfile = home + '/.ssh/id_rsa.pub';
-}
-console.log('getting public key from : ' + pubkeyfile);
-try {
-  pubkey = fs.readFileSync(pubkeyfile, "utf8");
-} catch(e) {
-  console.error('could not load : ' + pubkeyfile);
-  console.error(e);
-  process.exit(-1);
-}
-
-
-// get prefix
-try {
-  var arr = pubkey.toString().split(' ');
-  if (arr.length < 2) {
-    throw new Error("Malformed key split length " + arr.length);
+/*
+* Convert
+*
+* @param {String} login
+* @param {String} public
+* @param {String} private
+* @param {String} pem
+* @callback {convert~cb} callback
+**/
+function convert(login, public, private, pem, callback) {
+  if (!login) {
+    debug('github nick is required');
+    callback(new Error('github nick is required'));
   }
-  sshpubkey.prefix = arr[0];
-  sshpubkey.mainkey = arr[1];
-} catch(e) {
-  console.error('could not parse key : ' + pubkey);
-  console.error(e);
-  process.exit(-1);
+
+  // First convert the keys
+  convertKeys(public, private, function(err, converted) {
+    if (err) return callback(err);
+
+    // Create certificate
+    var cert = createCert(login, converted);
+
+    // Check certificate is valid
+    var verified = verifyCert(cert);
+    if (!verified) {
+      return callback(new Error('Certificate failed to validate'));
+    }
+
+    // Create pem
+    var pem = {
+      privateKey: forge.pki.privateKeyToPem(converted.private),
+      publicKey: forge.pki.publicKeyToPem(converted.public),
+      certificate: forge.pki.certificateToPem(cert)
+    };
+
+    return callback(null, pem);
+  });
+}
+
+/*
+* Convert as a command
+*
+* @param {String} argv[2] login
+* @param {String} argv[3] public
+* @param {String} argv[4] private
+* @param {String} argv[5] pemFile
+* @callback {bin~cb} callback
+**/
+function bin(argv) {
+  argv = argv || process.argv;
+  var login = argv[2];
+  var public = argv[3] || './id_rsa.pub';
+  var private = argv[4] || './id_rsa';
+  var pemFile = argv[5] || './id_rsa.pem';
+
+  convert(login, public, private, function(err, pem) {
+    if (err) {
+      console.log(err);
+    }
+    fs.writeFileSync(pemFile, pem.privateKey + '\n' + pem.certificate);
+  });
 }
 
 
-// get key bytes
-try {
-  sshpubkey.byteslen = 4;
-  sshpubkey.keybytes = forge.util.decode64(sshpubkey.mainkey);
-  sshpubkey.keyhex = forge.util.bytesToHex(sshpubkey.keybytes);
-} catch(e) {
-  console.error('could not get key hex');
-  console.error(e);
-  process.exit(-1);
+function getField (keyBytes, start, bytesLength) {
+  bytesLength = bytesLength || 4;
+  // First get the length of the next field
+  var lengthEnd = start + bytesLength;
+  var lengthBytes = keyBytes.slice(start, lengthEnd);
+  var lengthValue = lengthBytes.charCodeAt(bytesLength - 1);
+
+  // Then get the field
+  var bytesEnd = lengthEnd + lengthValue;
+  var bytes = keyBytes.slice(lengthEnd, bytesEnd);
+  // return where the bytes start and the bytes
+  return {end: bytesEnd, bytes: bytes};
 }
 
+function convertPublic (publicFile) {
+  // Public Key
 
-// type
-try {
-  sshpubkey.typelenstart = 0;
-  sshpubkey.typelenend = sshpubkey.typelenstart + sshpubkey.byteslen;
-  sshpubkey.typelenbytes = sshpubkey.keybytes.slice(sshpubkey.typelenstart, sshpubkey.typelenend);
-  sshpubkey.typelen = sshpubkey.typelenbytes.charCodeAt(sshpubkey.byteslen-1);
+  var bytesLength = 4;
 
-  sshpubkey.typestart = sshpubkey.typelenend;
-  sshpubkey.typeend = sshpubkey.typestart + sshpubkey.typelen;
-  sshpubkey.typebytes = sshpubkey.keybytes.slice(sshpubkey.typestart, sshpubkey.typeend);
-} catch(e) {
-  console.error('could not get type');
-  console.error(e);
-  process.exit(-1);
+  // Get the main Key
+  var mainKey = publicFile.toString().split(' ')[1]; // [0] is prefix
+  var keyBytes = forge.util.decode64(mainKey);
+
+  // Get fields
+  var type = getField(keyBytes, 0);
+  var exponent = getField(keyBytes, type.end);
+  var modulus = getField(keyBytes, exponent.end);
+
+  // Convert pub key to big int
+  var convertedPublic = forge.pki.setRsaPublicKey(
+    new BigInteger(forge.util.bytesToHex(modulus), 16),
+    new BigInteger(forge.util.bytesToHex(exponent), 16));
+
+  return convertedPublic;
 }
 
-
-// exponent
-try {
-  sshpubkey.exponentlenstart = sshpubkey.typeend;
-  sshpubkey.exponentlenend = sshpubkey.exponentlenstart + sshpubkey.byteslen;
-  sshpubkey.exponentlenbytes = sshpubkey.keybytes.slice(sshpubkey.exponentlenstart, sshpubkey.exponentlenend);
-  sshpubkey.exponentlen = sshpubkey.exponentlenbytes.charCodeAt(sshpubkey.byteslen-1);
-
-  sshpubkey.exponentstart = sshpubkey.exponentlenend;
-  sshpubkey.exponentend = sshpubkey.exponentstart + sshpubkey.exponentlen;
-  sshpubkey.exponentbytes = sshpubkey.keybytes.slice(sshpubkey.exponentstart, sshpubkey.exponentend);
-} catch(e) {
-  console.error('could not get exponent');
-  console.error(e);
-  process.exit(-1);
+function convertPrivate (privateFile) {
+  return forge.pki.privateKeyFromPem(privateFile);
 }
 
+function convertKeys (public, private, callback) {
+  fs.readFile(public, 'utf8', function (err, publicFile) {
+    if (err) return callback(err);
 
-// modulus
-try {
-  sshpubkey.moduluslenstart = sshpubkey.exponentend;
-  sshpubkey.moduluslenend = sshpubkey.moduluslenstart + sshpubkey.byteslen;
-  sshpubkey.moduluslenbytes = sshpubkey.keybytes.slice(sshpubkey.moduluslenstart, sshpubkey.moduluslenend);
-  sshpubkey.moduluslen = 256*sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-2) + sshpubkey.moduluslenbytes.charCodeAt(sshpubkey.byteslen-1);
+    fs.readFile(public, 'utf8', function (err, privateFile) {
+      if (err) return callback(err);
 
-  sshpubkey.modulusstart = sshpubkey.moduluslenend;
-  sshpubkey.modulusend = sshpubkey.modulusstart + sshpubkey.moduluslen;
-  sshpubkey.modulusbytes = sshpubkey.keybytes.slice(sshpubkey.modulusstart, sshpubkey.modulusend);
-} catch(e) {
-  console.error('could not get modulus');
-  console.error(e);
-  process.exit(-1);
+      var convertedPublic = convertPublic(publicFile);
+      var convertedPrivate = convertPrivate(privateFile);
+      debug('Public key converted : ' + convertedPublic);
+      debug('Private key converted : ' + convertedPrivate);
+
+      return callback(null, {
+        public: convertedPublic,
+        private: convertedPrivate
+      });
+    });
+  });
 }
 
+function createCert(login, keys) {
+  var cert = forge.pki.createCertificate();
+  cert.publicKey = keys.public;
+  cert.serialNumber = '01';
+  cert.validity.notBefore = new Date();
+  cert.validity.notAfter = new Date();
+  cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
 
-// output results
-console.log(parseInt(forge.util.bytesToHex(sshpubkey.exponentbytes), 16));
-console.log(forge.util.bytesToHex(sshpubkey.modulusbytes));
+  var attrs = [{
+    name: 'commonName',
+    value: 'gitpay.org ' + login
+  }, {
+    name: 'countryName',
+    value: 'CZ'
+  }, {
+    shortName: 'ST',
+    value: 'Czech'
+  }, {
+    name: 'localityName',
+    value: 'Prague'
+  }, {
+    name: 'organizationName',
+    value: 'Gitpay'
+  }, {
+    shortName: 'OU',
+    value: login
+  }];
+
+  cert.setSubject(attrs);
+  cert.setIssuer(attrs);
+  cert.setExtensions([{
+    name: 'basicConstraints',
+    cA: true/*,
+    pathLenConstraint: 4*/
+  }, {
+    name: 'keyUsage',
+    keyCertSign: true,
+    digitalSignature: true,
+    nonRepudiation: true,
+    keyEncipherment: true,
+    dataEncipherment: true
+  }, {
+    name: 'extKeyUsage',
+    serverAuth: true,
+    clientAuth: true,
+    codeSigning: true,
+    emailProtection: true,
+    timeStamping: true
+  }, {
+    name: 'nsCertType',
+    client: true,
+    server: true,
+    email: true,
+    objsign: true,
+    sslCA: true,
+    emailCA: true,
+    objCA: true
+  }, {
+    name: 'subjectAltName',
+    altNames: [{
+      type: 6, // URI
+      value: 'http://gitpay.org/'+ login +'#this'
+    }]
+  }, {
+    name: 'subjectKeyIdentifier'
+  }]);
+
+  // self-sign certificate
+  cert.sign(keys.privateKey/*, forge.md.sha256.create()*/);
+  debug('Certificate created');
+  return cert;
+}
+
+function verifyCert (cert) {
+  var caStore = forge.pki.createCaStore();
+  caStore.addCertificate(cert);
+  try {
+    forge.pki.verifyCertificateChain(caStore, [cert], function(vfd, depth, chain) {
+      if(vfd === true) {
+        debug('SubjectKeyIdentifier verified: ' +
+        cert.verifySubjectKeyIdentifier());
+        debug('Certificate verified.');
+      }
+      return true;
+    });
+    return true;
+  } catch(ex) {
+    debug('Certificate verification failure: ' + JSON.stringify(ex, null, 2));
+    return false;
+  }
+}
+
+// If one import this file, this is a module, otherwise a library
+if (require.main === module) {
+    bin(process.argv);
+}
+
+module.exports = convert;
