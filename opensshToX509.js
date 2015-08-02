@@ -52,7 +52,6 @@ function convert(login, public, private, pem, callback) {
 * @callback {bin~cb} callback
 **/
 function bin(argv) {
-  argv = argv || process.argv;
   var login = argv[2];
   var public = argv[3] || './id_rsa.pub';
   var private = argv[4] || './id_rsa';
