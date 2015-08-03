@@ -1,0 +1,26 @@
+{
+  "name": "gitpay",
+  "version": "0.0.0",
+  "description": "utils for gitpay.org and related systems",
+  "main": "opensshToX509.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitpay/util.git"
+  },
+  "keywords": [
+    "git",
+    "pay",
+    "gitpay",
+    "webid",
+    "linked",
+    "data"
+  ],
+  "author": "Melvin Carvalho <melvincarvalho@gmail.com> (http://gitpay.org/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gitpay/util/issues"
+  }
+}
