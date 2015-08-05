@@ -5,7 +5,7 @@
 *
 **/
 function code() {
-  var ret = 'gitpay code of conduct : https://github.com/gitpay/code-of-conduct/blob/master/README.md \n';
+  var ret = 'please visit the gitpay code of conduct : \n  https://github.com/gitpay/code-of-conduct/blob/master/README.md \n';
   return(ret);
 }
 
