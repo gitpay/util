@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-* Version number
+* help message
 *
 **/
 function help() {
