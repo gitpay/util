@@ -5,7 +5,7 @@
 *
 **/
 function help() {
-  var ret = 'gipaty help\n';
+  var ret = 'gitpay help\n';
   ret += 'commands\n';
   ret += '  help       - shows help message\n';
   ret += '  id <login> - shows login details in turtle\n';
