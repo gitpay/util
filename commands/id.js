@@ -29,9 +29,18 @@ function id(argv, callback) {
 
   var req = http.request(options, function(res) {
     res.setEncoding('utf8');
+
+    var data = '';
+
     res.on('data', function (chunk) {
-      callback(null, chunk);
+      data += chunk;
     });
+
+    res.on('end', function (chunk) {
+      callback(null, data);
+    });
+
+
   });
   req.end();
 
