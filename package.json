@@ -22,5 +22,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gitpay/util/issues"
+  },
+  "dependencies": {
+    "rdflib": "^0.2.8"
   }
 }
