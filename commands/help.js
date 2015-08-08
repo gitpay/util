@@ -7,10 +7,11 @@
 function help() {
   var ret = 'gitpay help\n';
   ret += 'commands\n';
-  ret += '  code       - shows gitpay code of conduct\n';
-  ret += '  help       - shows help message\n';
-  ret += '  id <login> - shows login details in turtle\n';
-  ret += '  version    - shows version number\n';
+  ret += '  code         - shows gitpay code of conduct\n';
+  ret += '  keys <login> - get uris of keys for a login\n';
+  ret += '  help         - shows help message\n';
+  ret += '  id <login>   - shows login details in turtle\n';
+  ret += '  version      - shows version number\n';
   return(ret);
 }
 
