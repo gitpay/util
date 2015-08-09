@@ -18,15 +18,15 @@ function keys(argv, callback) {
     process.exit(-1);
   }
 
-  var CERT  = $rdf.Namespace("http://www.w3.org/ns/auth/cert#");
   var TIMEOUT = 2000;
+  var CERT  = $rdf.Namespace("http://www.w3.org/ns/auth/cert#");
 
   var g = $rdf.graph();
-  var f = $rdf.fetcher(g, TIMEOUT);
+  var f = $rdf.fetcher(g, 2000);
 
   var url = 'http://' + domain + '/' + id;
   f.nowOrWhenFetched(url, null, function() {
-    var keys = g.statementsMatching(null, null, CERT('RSAPublicKey'));
+    var keys = g.statementsMatching(null, null, CERT('RSAPublicKey'), $rdf.sym(url));
     callback(null, keys);
   });
 
@@ -42,9 +42,9 @@ function keys(argv, callback) {
 **/
 
 function bin(argv) {
-  keys(argv, function(err, keys) {
-    for (var i=0; i<keys.length; i++) {
-      console.log(keys[i].subject.value);
+  keys(argv, function(err, res) {
+    for (var i=0; i<res.length; i++) {
+      console.log(res[i].subject.value);
     }
   });
 }
