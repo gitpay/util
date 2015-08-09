@@ -10,9 +10,9 @@ function help() {
   ret += '  code                    - shows gitpay code of conduct\n';
   ret += '  decrypt <key> <message> - get uris of keys for a login\n';
   ret += '  encrypt <key> <message> - get uris of keys for a login\n';
-  ret += '  keys <login>            - get uris of keys for a login\n';
   ret += '  help                    - shows help message\n';
   ret += '  id <login>              - shows login details in turtle\n';
+  ret += '  keys <login>            - get uris of keys for a login\n';
   ret += '  version                 - shows version number\n';
   return(ret);
 }
