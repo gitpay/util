@@ -42,10 +42,8 @@ function encrypt(argv, callback) {
     pub.modulus = g.any($rdf.sym(key), CERT('modulus'), null,  $rdf.sym(url));
     pub.key = g.statementsMatching($rdf.sym(key), null, null,  $rdf.sym(url));
     pub.publicKey = forge.pki.setRsaPublicKey(new BigInteger(pub.modulus.value, 16), new BigInteger(pub.exponent.value));
-    var buffer = forge.util.createBuffer(message, 'utf8');
-    var encrypted = pub.publicKey.encrypt(buffer);
-    buffer = forge.util.createBuffer(encrypted, 'utf8');
-    callback(null, buffer.toHex());
+    var encrypted = pub.publicKey.encrypt(message);
+    callback(null, forge.util.bytesToHex(encrypted));
   });
 
 }
