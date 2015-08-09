@@ -36,7 +36,6 @@ function encrypt(argv, callback) {
   var f = $rdf.fetcher(g, TIMEOUT);
 
   var url = key.split('#')[0];
-  url = 'http://gitpay.org/deiu';
   f.nowOrWhenFetched(url, null, function() {
     var pub = {};
     pub.exponent = g.any($rdf.sym(key), CERT('exponent'), null,  $rdf.sym(url));
@@ -48,7 +47,6 @@ function encrypt(argv, callback) {
     buffer = forge.util.createBuffer(encrypted, 'utf8');
     callback(null, buffer.toHex());
   });
-
 
 }
 
