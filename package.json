@@ -24,8 +24,8 @@
     "url": "https://github.com/gitpay/util/issues"
   },
   "dependencies": {
+    "git-config": "0.0.7",
     "node-forge": "^0.6.34",
-    "nodegit": "^0.4.1",
     "rdflib": "^0.2.8"
   }
 }
