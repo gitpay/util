@@ -18,6 +18,7 @@
     verify <key> <message>  <sig> - verify a signature with key file and message
     version                       - shows version number
 
+Commands are currently run from the commands directory.  TODO: package into cli parent script.
 
 # git pay utils
 
