@@ -7,6 +7,7 @@
 function help() {
   var ret = 'gitpay help\n';
   ret += 'commands\n';
+  ret += '  btc <login>                   - get bitcoin and testnet address\n';
   ret += '  code                          - shows gitpay code of conduct\n';
   ret += '  decrypt <key> <message>       - decrypt message with key file\n';
   ret += '  encrypt <key> <message>       - encrypt message with key uri\n';
