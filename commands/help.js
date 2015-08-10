@@ -15,6 +15,8 @@ function help() {
   ret += '  id <login>                    - shows login details in turtle\n';
   ret += '  keys <login>                  - get uris of keys for a login\n';
   ret += '  me <login>                    - saves your identity for convenience\n';
+  ret += '  pubkey <key>                  - saves your pub key URI for convenience\n';
+  ret += '  privkey <key>                 - saves your priv key file for convenience\n';
   ret += '  sign <key> <message>          - sign message with key file\n';
   ret += '  verify <key> <message>  <sig> - verify a signature with key file and message\n';
   ret += '  version                       - shows version number\n';
