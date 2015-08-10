@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "node-forge": "^0.6.34",
+    "nodegit": "^0.4.1",
     "rdflib": "^0.2.8"
   }
 }
