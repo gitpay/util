@@ -15,6 +15,8 @@
     id <login>                   - shows login details in turtle
     keys <login>                 - get uris of keys for a login
     me <login>                   - saves your identity for convenience
+    pubkey <key>                 - saves your pub key URI for convenience
+    privkey <key>                - saves your priv key file for convenience
     sign <key> <message>         - sign message with key file
     verify <key> <message> <sig> - verify a signature with key file and message
     version                      - shows version number
