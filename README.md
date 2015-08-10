@@ -7,16 +7,17 @@
 
 # commands
 
-    btc <login>                   - get bitcoin and testnet address
-    code                          - shows gitpay code of conduct
-    decrypt <key> <message>       - decrypt message with key file
-    encrypt <key> <message>       - encrypt message with key uri
-    help                          - shows help message
-    id <login>                    - shows login details in turtle
-    keys <login>                  - get uris of keys for a login
-    sign <key> <message>          - sign message with key file
-    verify <key> <message>  <sig> - verify a signature with key file and message
-    version                       - shows version number
+  btc <login>                   - get bitcoin and testnet address
+  code                          - shows gitpay code of conduct
+  decrypt <key> <message>       - decrypt message with key file
+  encrypt <key> <message>       - encrypt message with key uri
+  help                          - shows help message
+  id <login>                    - shows login details in turtle
+  keys <login>                  - get uris of keys for a login
+  me <login>                    - saves your identity for convenience
+  sign <key> <message>          - sign message with key file
+  verify <key> <message>  <sig> - verify a signature with key file and message
+  version                       - shows version number
 
 Commands are currently run from the commands directory.  TODO: package into cli parent script.
 
