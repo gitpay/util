@@ -27,10 +27,3 @@ Utils for dealing with PKI
 * get private key from openssh
 * convert openssh keys to x.509 certifiate
 * generate webid tls certificates
-
-Command line utils (command directory)
-
-* code       - shows gitpay code of conduct
-* help       - shows help message
-* id <login> - shows login details in turtle
-* version    - shows version number
