@@ -1,33 +1,40 @@
 #!/usr/bin/env node
 
-var http = require('http');
-var $rdf = require('rdflib');
-var fs = require('fs');
-var forge = require('node-forge');
+var fs        = require('fs');
+var gitConfig = require('git-config');
+var http      = require('http');
+var forge     = require('node-forge');
+var $rdf      = require('rdflib');
+
 var BigInteger = forge.jsbn.BigInteger;
 var sshprivkey = require('../sshprivkey.js');
 var sshpubkey = require('../sshpubkey.js');
 
-
 var domain = 'gitpay.org';
+var config = gitConfig.sync();
 
 /*
 * sign gets response in turtle for a given user
 *
-* @param {String} argv[2] key
-* @param {String} argv[3] message
+* @param {String} argv[2] message
+* @param {String} argv[3] key
 * @callback {bin~cb} callback
 **/
 function sign(argv, callback) {
-  var key = argv[2];
-  if (!key) {
-    console.log('key is required');
+  var message = argv[2];
+  if (!message) {
+    console.log('message is required');
     process.exit(-1);
   }
 
-  var message = argv[3];
-  if (!message) {
-    console.log('message is required');
+  var key = argv[3];
+
+  if (!key) {
+    key = config.gitpay.privkey.replace(/['"]+/g, '');
+  }
+
+  if (!key) {
+    console.log('key is required');
     process.exit(-1);
   }
 

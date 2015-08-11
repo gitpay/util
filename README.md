@@ -18,7 +18,7 @@
     nick <nick>                  - saves your nick for convenience
     pubkey <key>                 - saves your pub key URI for convenience
     privkey <key>                - saves your priv key file for convenience
-    sign <key> <message>         - sign message with key file
+    sign <message> <key>         - sign message with key file
     verify <key> <message> <sig> - verify a signature with key file and message
     version                      - shows version number
 

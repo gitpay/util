@@ -18,7 +18,7 @@ function help() {
   ret += '  nick <nick>                  - saves your nick for convenience\n';
   ret += '  pubkey <key>                 - saves your pub key URI for convenience\n';
   ret += '  privkey <key>                - saves your priv key file for convenience\n';
-  ret += '  sign <key> <message>         - sign message with key file\n';
+  ret += '  sign <message> <key>         - sign message with key file\n';
   ret += '  verify <key> <message> <sig> - verify a signature with key file and message\n';
   ret += '  version                      - shows version number\n';
   return(ret);
