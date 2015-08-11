@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
-var http = require('http');
-var fs = require('fs');
+var fs        = require('fs');
+var http      = require('http');
+var gitConfig = require('git-config');
+var $rdf      = require('rdflib');
+
 var domain = 'gitpay.org';
+var config = gitConfig.sync();
 
 /*
 * id gets response in turtle for a given user
@@ -11,8 +15,14 @@ var domain = 'gitpay.org';
 * @callback {bin~cb} callback
 **/
 function id(argv, callback) {
-  if (!argv[2]) {
-    console.log('id is required');
+  var nick = argv[2];
+
+  if (!nick) {
+    nick = config.gitpay.nick;
+  }
+
+  if (!id) {
+    console.log('nick is required');
     process.exit(-1);
   }
 
@@ -20,7 +30,7 @@ function id(argv, callback) {
       host: domain,
       port: 80,
       method: 'GET',
-      path: '/' + argv[2],
+      path: '/' + nick,
       //key: fs.readFileSync('ssl/client.key'),
       //cert: fs.readFileSync('ssl/client.crt'),
       //passphrase: 'password', // doesn't seem to work...
