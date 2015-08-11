@@ -24,6 +24,33 @@
 
 Commands are currently run from the commands directory.  TODO: package into cli parent script.
 
+# installation
+
+   git clone https://github.com/gitpay/util.git
+   cd util/commands
+
+# examples
+
+## encrypt
+
+    ./encrypt.js gitpay
+    jWN9C6Rj/i5jQh1JaohfOEsXkDHy+9j+jKuajAnVmfMh9As4XxvWM9Bd6T277EX1vZB80gq9otqintB8TG7GYTJ8NuGnMGJQlRWYLllIHaD6Jnv5UW1qf5HtvQ1wRQzeI2+MHccXB3xD3qc0FlGLbF22cGe79CHPFBRW2U7ij7ikGZK8iaAUr79o1PR6g0B6fuw44DGBJISqLwmiBbbYhSCHqfih/hkFv5gB1gSWA9rZ0+vmyMr5+fOPgM1AblljujaqAWXRdoNvzyVF0mwiq1NUAtsedxIg+TEBMQO+6gE7IXk90ZneaaCIgBOvzothBy36J9QJfGgoa3EMqqeG4g==
+
+## decrypt
+
+    ./decrypt.js jWN9C6Rj/i5jQh1JaohfOEsXkDHy+9j+jKuajAnVmfMh9As4XxvWM9Bd6T277EX1vZB80gq9otqintB8TG7GYTJ8NuGnMGJQlRWYLllIHaD6Jnv5UW1qf5HtvQ1wRQzeI2+MHccXB3xD3qc0FlGLbF22cGe79CHPFBRW2U7ij7ikGZK8iaAUr79o1PR6g0B6fuw44DGBJISqLwmiBbbYhSCHqfih/hkFv5gB1gSWA9rZ0+vmyMr5+fOPgM1AblljujaqAWXRdoNvzyVF0mwiq1NUAtsedxIg+TEBMQO+6gE7IXk90ZneaaCIgBOvzothBy36J9QJfGgoa3EMqqeG4g==
+    gitpay
+
+## sign
+
+    ./sign.js gitpay
+    p+COR37L4odjO4zO58OcHWF+HmZZx5qwemB6xvOl2s1sys46RjvdUaIG+TXmWXZy1G6G5gVcARI12q1oDJ0iqOPX3GkEnV69iycvTNZClnDwoPyMG7RnT7wk7jTZluWmHKxb/2kBpGRIFo+AWGFeawe5QSCWSsXbZCd5TAGjgLbNhO7BAET7HxXF19X6QbyMWF6W97O6sKBaG72vFvRXBqb9gKIYuNPJz7GR0mWtI/KeGDdLi5QWqjFCnsj6FUgnAQuQQeP8M2+OlWbaVTAM72zP0jIqtOEMPy3+M9FTgj3hpDwUFiUBnmTzbP6YFNxasia5srDDPRLlP9oxoH0kZA==
+
+## verify
+
+    ./verify.js gitpay p+COR37L4odjO4zO58OcHWF+HmZZx5qwemB6xvOl2s1sys46RjvdUaIG+TXmWXZy1G6G5gVcARI12q1oDJ0iqOPX3GkEnV69iycvTNZClnDwoPyMG7RnT7wk7jTZluWmHKxb/2kBpGRIFo+AWGFeawe5QSCWSsXbZCd5TAGjgLbNhO7BAET7HxXF19X6QbyMWF6W97O6sKBaG72vFvRXBqb9gKIYuNPJz7GR0mWtI/KeGDdLi5QWqjFCnsj6FUgnAQuQQeP8M2+OlWbaVTAM72zP0jIqtOEMPy3+M9FTgj3hpDwUFiUBnmTzbP6YFNxasia5srDDPRLlP9oxoH0kZA==
+    true
+
 # git pay utils
 
 Utils for dealing with PKI
