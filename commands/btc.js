@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
-var http = require('http');
-var $rdf = require('rdflib');
-var fs = require('fs');
+var fs        = require('fs');
+var http      = require('http');
+var gitConfig = require('git-config');
+var $rdf      = require('rdflib');
+
 var domain = 'gitpay.org';
+var config = gitConfig.sync();
 
 /*
 * btc gets response in turtle for a given user
@@ -13,10 +16,17 @@ var domain = 'gitpay.org';
 **/
 function btc(argv, callback) {
   var id = argv[2];
+
+  if (!id) {
+    id = config.gitpay.nick;
+  }  
+
   if (!id) {
     console.log('id is required');
     process.exit(-1);
   }
+
+
 
   var TIMEOUT = 2000;
   var CURR  = $rdf.Namespace("https://w3id.org/cc#");
