@@ -51,7 +51,9 @@ function keys(argv, callback) {
 
 function bin(argv) {
   keys(argv, function(err, res) {
-    console.log(res);
+    for (var i=0; i<res.length; i++) {
+      console.log(res[i].subject.value);      
+    }
   });
 }
 
