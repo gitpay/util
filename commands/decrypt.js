@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 var fs        = require('fs');
 var gitConfig = require('git-config');
 var http      = require('http');
@@ -45,7 +44,7 @@ function decrypt(argv, callback) {
       console.log(err);
     }
     //var d = priv.private.decrypt( forge.util.hexToBytes(enc) );
-    var d = priv.private.decrypt( forge.util.hexToBytes(message) );
+    var d = priv.private.decrypt( forge.util.decode64(message) );
     console.log(d);
   });
 

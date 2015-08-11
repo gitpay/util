@@ -53,7 +53,7 @@ function encrypt(argv, callback) {
     pub.key = g.statementsMatching($rdf.sym(key), null, null,  $rdf.sym(url));
     pub.publicKey = forge.pki.setRsaPublicKey(new BigInteger(pub.modulus.value, 16), new BigInteger(pub.exponent.value));
     var encrypted = pub.publicKey.encrypt(message);
-    callback(null, forge.util.bytesToHex(encrypted));
+    callback(null, forge.util.encode64(encrypted));
   });
 
 }
