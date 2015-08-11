@@ -7,14 +7,15 @@
 
 # commands
 
-    btc <login>                  - get bitcoin and testnet address
+    btc <nick>                   - get bitcoin and testnet address
     code                         - shows gitpay code of conduct
     decrypt <key> <message>      - decrypt message with key file
     encrypt <key> <message>      - encrypt message with key uri
     help                         - shows help message
-    id <login>                   - shows login details in turtle
-    keys <login>                 - get uris of keys for a login
-    me <login>                   - saves your identity for convenience
+    id <nick>                    - shows nick details in turtle
+    keys <nick>                  - get uris of keys for a nick
+    me <nick>                    - saves your identity for convenience
+    nick <nick>                  - saves your nick for convenience
     pubkey <key>                 - saves your pub key URI for convenience
     privkey <key>                - saves your priv key file for convenience
     sign <key> <message>         - sign message with key file

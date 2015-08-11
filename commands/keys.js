@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
-var http = require('http');
-var $rdf = require('rdflib');
-var fs = require('fs');
-var domain = 'gitpay.org';
+var fs        = require('fs');
+var gitConfig = require('git-config');
+var http      = require('http');
+var $rdf      = require('rdflib');
+
+var domain    = 'gitpay.org';
+var config    = gitConfig.sync();
 
 /*
 * keys gets response in turtle for a given user
@@ -13,6 +16,11 @@ var domain = 'gitpay.org';
 **/
 function keys(argv, callback) {
   var id = argv[2];
+
+  if (!id) {
+    id = config.gitpay.nick;
+  }
+
   if (!id) {
     console.log('id is required');
     process.exit(-1);
@@ -43,9 +51,7 @@ function keys(argv, callback) {
 
 function bin(argv) {
   keys(argv, function(err, res) {
-    for (var i=0; i<res.length; i++) {
-      console.log(res[i].subject.value);
-    }
+    console.log(res);
   });
 }
 
