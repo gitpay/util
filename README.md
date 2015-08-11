@@ -26,8 +26,8 @@ Commands are currently run from the commands directory.  TODO: package into cli 
 
 # installation
 
-   git clone https://github.com/gitpay/util.git
-   cd util/commands
+    git clone https://github.com/gitpay/util.git
+    cd util/commands
 
 # examples
 
