@@ -10,7 +10,7 @@
     btc <nick>                   - get bitcoin and testnet address
     code                         - shows gitpay code of conduct
     decrypt <key> <message>      - decrypt message with key file
-    encrypt <key> <message>      - encrypt message with key uri
+    encrypt <message> <key>      - encrypt message with key uri
     help                         - shows help message
     id <nick>                    - shows nick details in turtle
     keys <nick>                  - get uris of keys for a nick
