@@ -19,7 +19,7 @@
     pubkey <key>                 - saves your pub key URI for convenience
     privkey <key>                - saves your priv key file for convenience
     sign <message> <key>         - sign message with key file
-    verify <key> <message> <sig> - verify a signature with key file and message
+    verify <message> <sig> <key> - verify a signature with key file and message
     version                      - shows version number
 
 Commands are currently run from the commands directory.  TODO: package into cli parent script.
