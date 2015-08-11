@@ -9,7 +9,7 @@ function help() {
   ret += 'commands\n';
   ret += '  btc <nick>                   - get bitcoin and testnet address\n';
   ret += '  code                         - shows gitpay code of conduct\n';
-  ret += '  decrypt <key> <message>      - decrypt message with key file\n';
+  ret += '  decrypt <message> <key>      - decrypt message with key file\n';
   ret += '  encrypt <message> <key>      - encrypt message with key uri\n';
   ret += '  help                         - shows help message\n';
   ret += '  id <nick>                    - shows nick details in turtle\n';
