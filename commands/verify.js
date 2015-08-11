@@ -59,9 +59,9 @@ function verify(argv, callback) {
     pub.key = g.statementsMatching($rdf.sym(key), null, null,  $rdf.sym(url));
     pub.publicKey = forge.pki.setRsaPublicKey(new BigInteger(pub.modulus.value, 16), new BigInteger(pub.exponent.value));
 
-    var md = forge.md.sha1.create();
+    var md = forge.md.sha256.create();
     md.update(message, 'utf8');
-    var verified = pub.publicKey.verify(md.digest().bytes(), forge.util.hexToBytes(signature));
+    var verified = pub.publicKey.verify(md.digest().bytes(), forge.util.decode64(signature));
 
     callback(null, verified);
   });

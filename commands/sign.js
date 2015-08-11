@@ -43,11 +43,10 @@ function sign(argv, callback) {
       console.log(err);
     }
 
-    var md = forge.md.sha1.create();
+    var md = forge.md.sha256.create();
     md.update(message, 'utf8');
     var signature = priv.private.sign(md);
-
-    callback(null, forge.util.bytesToHex(signature));
+    callback(null, forge.util.encode64(signature));
 
   });
 
