@@ -18,7 +18,9 @@ function id(argv, callback) {
   var nick = argv[2];
 
   if (!nick) {
-    nick = config.gitpay.nick;
+    if (config.gitpay) {
+      nick = config.gitpay.nick;      
+    }
   }
 
   if (!id) {
