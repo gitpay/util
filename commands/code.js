@@ -4,9 +4,9 @@
 * code of conduct
 *
 **/
-function code() {
+function code(argv, callback) {
   var ret = 'please visit the gitpay code of conduct : \n  https://github.com/gitpay/code-of-conduct/blob/master/README.md \n';
-  return(ret);
+  callback(null, ret);
 }
 
 /*
@@ -14,7 +14,9 @@ function code() {
 *
 **/
 function bin() {
-  console.log(code());
+  help(process.argv, function(err, ret){
+    console.log(ret);
+  });
 }
 
 // If one import this file, this is a module, otherwise a library

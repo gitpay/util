@@ -1,6 +1,6 @@
 {
   "name": "gitpay",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "utils for gitpay.org and related systems",
   "main": "opensshToX509.js",
   "scripts": {
@@ -24,11 +24,12 @@
     "url": "https://github.com/gitpay/util/issues"
   },
   "dependencies": {
+    "debug": "^2.2.0",
     "git-config": "0.0.7",
     "node-forge": "^0.6.34",
     "rdflib": "^0.2.8"
   },
   "bin": {
-    "git-pay" : "gitpay.js"
+    "git-pay": "gitpay.js"
   }
 }
