@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var VERSION = '0.0.0';
+var VERSION = '0.0.2';
 
 /*
 * Version number

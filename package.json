@@ -1,6 +1,6 @@
 {
   "name": "gitpay",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "utils for gitpay.org and related systems",
   "main": "opensshToX509.js",
   "scripts": {
@@ -27,5 +27,8 @@
     "git-config": "0.0.7",
     "node-forge": "^0.6.34",
     "rdflib": "^0.2.8"
+  },
+  "bin": {
+    "git-pay" : "gitpay.js"
   }
 }
