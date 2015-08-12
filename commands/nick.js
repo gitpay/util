@@ -16,7 +16,7 @@ var config = gitConfig.sync();
 **/
 function nick(argv, callback) {
 
-  if (config.gitpay.nick) {
+  if (config.gitpay && config.gitpay.nick) {
     console.log('your nick is set to');
     console.log(config.gitpay.nick);
     process.exit(0);

@@ -16,7 +16,7 @@ var config = gitConfig.sync();
 **/
 function pubkey(argv, callback) {
 
-  if (config.gitpay.pubkey) {
+  if (config.gitpay && config.gitpay.pubkey) {
     console.log('your defualt public key is set to');
     console.log(config.gitpay.pubkey);
     process.exit(0);
