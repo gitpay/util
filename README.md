@@ -2,17 +2,25 @@
 
 # gitpay
 
-gitpay is an experimental set of tools for creating incetinves for free and open source projects
+gitpay is an experimental set of tools for creating incentives within free and open source projects
 
 please review our code of conduct before participating in this project
 
 * https://github.com/gitpay/code-of-conduct
 
+# installation
+
+    npm install -g gitpay
+
 # util
+
+util is a set of command line tooling and helper functions enable the core features
 
 [![Join the chat at https://gitter.im/gitpay/util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitpay/util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # commands
+
+preface with : git pay <command>
 
     btc <nick>                   - get bitcoin and testnet address
     code                         - shows gitpay code of conduct
@@ -29,12 +37,6 @@ please review our code of conduct before participating in this project
     verify <message> <sig> <key> - verify a signature with key file and message
     version                      - shows version number
 
-Commands are currently run from the commands directory.  TODO: package into cli parent script.
-
-# installation
-
-    git clone https://github.com/gitpay/util.git
-    cd util/commands
 
 # examples
 
