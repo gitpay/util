@@ -1,5 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/gitpay/util.png?label=ready&title=Ready)](https://waffle.io/gitpay/util)
 
+[![Join the chat at https://gitter.im/gitpay/util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitpay/util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # gitpay
 
 gitpay is an experimental set of tools for creating incentives within free and open source projects
@@ -15,8 +17,6 @@ please review our code of conduct before participating in this project
 # util
 
 util is a set of command line tooling and helper functions enable the core features
-
-[![Join the chat at https://gitter.im/gitpay/util](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gitpay/util?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # commands
 

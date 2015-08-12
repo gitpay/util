@@ -4,7 +4,7 @@
 * help message
 *
 **/
-function help() {
+function help(argv, callback) {
   var ret = 'gitpay help\n';
   ret += 'commands\n';
   ret += '  btc <nick>                   - get bitcoin and testnet address\n';
@@ -21,7 +21,7 @@ function help() {
   ret += '  sign <message> <key>         - sign message with key file\n';
   ret += '  verify <message> <key> <sig> - verify a signature with key file and message\n';
   ret += '  version                      - shows version number\n';
-  return(ret);
+  callback(null, ret);
 }
 
 /*
@@ -29,7 +29,9 @@ function help() {
 *
 **/
 function bin() {
-  console.log(help());
+  help(process.argv, function(err, ret){
+    console.log(ret);
+  });
 }
 
 // If one import this file, this is a module, otherwise a library

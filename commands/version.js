@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
-var VERSION = '0.0.2';
+var VERSION = '0.0.3';
 
 /*
 * Version number
 *
 **/
-function version() {
-  return(VERSION);
+function version(argv, callback) {
+  var ret = 'gitpay version : ' + VERSION;
+  callback(null, ret);
+
 }
 
 /*
@@ -15,7 +17,9 @@ function version() {
 *
 **/
 function bin() {
-  console.log(version());
+  version(process.argv, function(err, ret){
+    console.log(ret);
+  });
 }
 
 // If one import this file, this is a module, otherwise a library
