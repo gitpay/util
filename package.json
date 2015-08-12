@@ -1,6 +1,6 @@
 {
   "name": "gitpay",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "utils for gitpay.org and related systems",
   "main": "opensshToX509.js",
   "scripts": {

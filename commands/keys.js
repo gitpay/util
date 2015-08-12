@@ -33,9 +33,15 @@ function keys(argv, callback) {
   var f = $rdf.fetcher(g, 2000);
 
   var url = 'http://' + domain + '/' + id;
+
+  var ret = [];
+
   f.nowOrWhenFetched(url, null, function() {
     var keys = g.statementsMatching(null, null, CERT('RSAPublicKey'), $rdf.sym(url));
-    callback(null, keys);
+    for (var i=0; i<keys.length; i++) {
+      ret.push(keys[i].subject.value);
+    }
+    callback(null, ret);
   });
 
 
@@ -52,7 +58,7 @@ function keys(argv, callback) {
 function bin(argv) {
   keys(argv, function(err, res) {
     for (var i=0; i<res.length; i++) {
-      console.log(res[i].subject.value);      
+      console.log(res[i]);
     }
   });
 }
