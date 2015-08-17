@@ -13,6 +13,7 @@ function help(argv, callback) {
   ret += '  encrypt <message> <key>      - encrypt message with key uri\n';
   ret += '  help                         - shows help message\n';
   ret += '  id <nick>                    - shows nick details in turtle\n';
+  ret += '  init                         - try to init and write to ~/.gitconfig\n';
   ret += '  keys <nick>                  - get uris of keys for a nick\n';
   ret += '  me <nick>                    - saves your identity for convenience\n';
   ret += '  nick <nick>                  - saves your nick for convenience\n';

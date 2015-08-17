@@ -28,6 +28,7 @@ preface with : git pay <command>
     encrypt <message> <key>      - encrypt message with key uri
     help                         - shows help message
     id <nick>                    - shows nick details in turtle
+    init                         - try to init and write to ~/.gitconfig
     keys <nick>                  - get uris of keys for a nick
     me <nick>                    - saves your identity for convenience
     nick <nick>                  - saves your nick for convenience
