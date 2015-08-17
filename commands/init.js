@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
-var exec      = require('child_process').exec;
-var fs        = require('fs');
-var gitConfig = require('git-config');
-var http      = require('http');
-var $rdf      = require('rdflib');
+var exec          = require('child_process').exec;
+var fs            = require('fs');
+var gitConfig     = require('git-config');
+var http          = require('http');
+var opensshToX509 = require('../opensshToX509.js');
+var $rdf          = require('rdflib');
 
-var domain    = 'gitpay.org';
-var config    = gitConfig.sync();
+var domain        = 'gitpay.org';
+var config        = gitConfig.sync();
 
 /*
 * init gets response in turtle for a given user
@@ -21,13 +22,39 @@ function init(argv, callback) {
   var CERT  = $rdf.Namespace("http://www.w3.org/ns/auth/cert#");
   var FOAF  = $rdf.Namespace("http://xmlns.com/foaf/0.1/");
 
+  var nick;
+  var pubkey;
+  var privkey;
+
   var g = $rdf.graph();
   var f = $rdf.fetcher(g, 2000);
 
   initPrivkey();
   initNick(function(err, res) {
     if (!err) {
-      initPubkey(res);
+      initPubkey(res, function() {
+        var pemFile = privkey + '.pem';
+        opensshToX509(nick, privkey + '.pub', privkey, pemFile, function(err, pem) {
+          if (!err) {
+            console.log('writing webid to ' + pemFile);
+            fs.writeFileSync(pemFile, pem.privateKey + '\n' + pem.certificate);
+
+            console.log('gerating .p12');
+            exec("openssl pkcs12 -export -passout pass: -out "+ privkey + ".p12" +" -inkey "+ pemFile +" -in "+ pemFile +" -certfile "+ pemFile +"", function(err) {
+              if (!err) {
+                console.log('init complete');
+                console.log('you may now import your webid into your browser');                
+                console.log('your webid is saved in : ' + privkey + ".p12");
+              } else {
+                console.error(err);
+              }
+            });
+
+          } else {
+            console.error(err);
+          }
+        });
+      });
     } else {
       console.error(err);
     }
@@ -41,7 +68,7 @@ function init(argv, callback) {
           if (!err) {
             console.log('privkey set');
           } else {
-            console.log(eff);
+            console.log(err);
           }
         });
       } else {
@@ -51,25 +78,27 @@ function init(argv, callback) {
   }
 
 
-  function initPubkey(nick) {
+  function initPubkey(nick, callback) {
     getPubkey(nick, function(err, ret) {
       if (!err) {
         console.log(ret);
         setPubkey(ret, function(err, stdout, stderr) {
           if (!err) {
             console.log('pubkey set');
+            callback(null);
           } else {
-            console.log(eff);
+            console.log(err);
+            callback(err);
           }
         });
       } else {
         console.error(err);
+        callback(err);
       }
     });
   }
 
   function getPubkey(nick, callback) {
-    var pubkey;
 
     console.log('searching for pubkey...');
     console.log('try congig file');
@@ -104,12 +133,7 @@ function init(argv, callback) {
   }
 
 
-
-
-
-
   function getPrivkey(callback) {
-    var privkey;
     var home = getUserHome();
     var defaultPrivkey = home + '/.ssh/id_rsa';
 
@@ -143,7 +167,6 @@ function init(argv, callback) {
   }
 
   function initNick(callback) {
-    var nick;
     getNick(function(err, res) {
       if (!err) {
         if (res) {
@@ -172,7 +195,6 @@ function init(argv, callback) {
 
 
   function getNick(callback) {
-    var nick;
 
     console.log('searching for nick...');
     console.log('try congig file');

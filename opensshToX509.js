@@ -3,6 +3,14 @@ var forge = require('node-forge');
 var debug = require('debug')('converter');
 var BigInteger = forge.jsbn.BigInteger;
 
+// change as necessary
+var countryName      = 'UK';
+var domain           = 'http://gitpay.org/';
+var localityName     = 'London';
+var organizationName = 'gitpay.org';
+var shortName        = 'WebID';
+
+
 /*
 * Convert
 *
@@ -13,6 +21,7 @@ var BigInteger = forge.jsbn.BigInteger;
 * @callback {convert~cb} callback
 **/
 function convert(login, public, private, pem, callback) {
+
   if (!login) {
     debug('github nick is required');
     callback(new Error('github nick is required'));
@@ -137,19 +146,19 @@ function createCert(login, keys) {
 
   var attrs = [{
     name: 'commonName',
-    value: 'gitpay.org ' + login
+    value: domain + login
   }, {
     name: 'countryName',
-    value: 'CZ'
+    value: countryName,
   }, {
     shortName: 'ST',
-    value: 'Czech'
+    value: shortName,
   }, {
     name: 'localityName',
-    value: 'Prague'
+    value: localityName,
   }, {
     name: 'organizationName',
-    value: 'Gitpay'
+    value: organizationName,
   }, {
     shortName: 'OU',
     value: login
@@ -188,7 +197,7 @@ function createCert(login, keys) {
     name: 'subjectAltName',
     altNames: [{
       type: 6, // URI
-      value: 'http://gitpay.org/'+ login +'#this'
+      value: domain + login +'#this'
     }]
   }, {
     name: 'subjectKeyIdentifier'
